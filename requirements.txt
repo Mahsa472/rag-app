@@ -3,6 +3,7 @@ openai
 python-dotenv
 PyPDF2
 boto3
+dvc
 
 chromadb==0.4.17
 numpy==1.26.4

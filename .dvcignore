@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# DVC cache
+.dvc/cache/
+.dvc/tmp/
+
+# Logs
+*.log
+
+# Cache
+cache/
+*.cache
+
+# Environment
+.env
+.env.local
+
+# Metrics - allow metrics.json (it's tracked as output in dvc.yaml)
+# metrics.json
+

@@ -33,4 +33,17 @@ cache/
 .cache/
 *.cache
 
+# DVC - ignore cache and tmp, but track .dvc directory and .dvc files
+.dvc/cache/
+.dvc/tmp/
+# Allow .dvc directory (needed for DVC to work)
+!.dvc/
+!.dvc/.gitignore
+!.dvc/config
+# Allow .dvc files (needed to track data like data/pdfs.dvc, data/chroma_db.dvc)
+!*.dvc
+# But ignore lock files
+*.dvc.lock
 
+
+/metrics.json

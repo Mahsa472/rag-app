@@ -1,0 +1,32 @@
+schema: '2.0'
+stages:
+  index:
+    cmd: python scripts/index_pipeline.py && python scripts/generate_metrics.py
+    deps:
+    - path: data/pdfs
+      hash: md5
+      md5: a500802de49d3544ad18dda420dc0cd3.dir
+      size: 1015954
+      nfiles: 2
+    - path: src/config.py
+      hash: md5
+      md5: 9d6a20adc31f57ae53332de10deaeab7
+      size: 398
+    - path: src/embeddings_store.py
+      hash: md5
+      md5: 84e0df3d6fcc9643c4f0067ea629cc8f
+      size: 2501
+    - path: src/ingestion.py
+      hash: md5
+      md5: 5c9099680d1502bcc3be5a1b3966b438
+      size: 1287
+    outs:
+    - path: data/chroma_db
+      hash: md5
+      md5: ca6ed0363ddc209aeeea4235d7f9cfdd.dir
+      size: 1274020
+      nfiles: 5
+    - path: metrics.json
+      hash: md5
+      md5: 04ea52a2a46ffaeab8c4a59ef3b4f238
+      size: 48

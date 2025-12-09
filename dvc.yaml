@@ -1,0 +1,13 @@
+stages:
+  index:
+    cmd: python scripts/index_pipeline.py && python scripts/generate_metrics.py
+    deps:
+      - data/pdfs
+      - src/ingestion.py
+      - src/embeddings_store.py
+      - src/config.py
+    outs:
+      - data/chroma_db
+    metrics:
+      - metrics.json
+

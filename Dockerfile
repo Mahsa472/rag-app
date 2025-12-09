@@ -55,6 +55,8 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application source code
 COPY src/ ./src/
+COPY scripts/ ./scripts/
+COPY dvc.yaml .dvcignore ./
 
 # Create data directories
 RUN mkdir -p /app/data/pdfs /app/data/chroma_db /app/cache
