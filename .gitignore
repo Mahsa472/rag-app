@@ -28,4 +28,9 @@ Thumbs.db
 data/chroma_db/
 data/pdfs/
 
+# Cache directories (HuggingFace models, etc.)
+cache/
+.cache/
+*.cache
+
 

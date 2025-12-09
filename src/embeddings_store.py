@@ -1,5 +1,6 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from config import CHROMA_DIR, EMBEDDING_MODEL
 
 _model = None
@@ -16,8 +17,23 @@ def embed_texts(texts):
     return model.encode(texts, batch_size=32, show_progress_bar=True).tolist()
 
 def get_collection(name="documents"):
+    embedding_function = SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL)
     client = chromadb.PersistentClient(path=CHROMA_DIR)
-    return client.get_or_create_collection(name)
+    try:
+        return client.get_or_create_collection(name=name, embedding_function=embedding_function)
+    except Exception as e:
+        # Handle schema incompatibility errors (e.g., old ChromaDB version)
+        if "no such column" in str(e) or "OperationalError" in str(type(e).__name__):
+            print(f"Warning: Database schema mismatch detected. Resetting ChromaDB database...")
+            import os
+            import shutil
+            # Delete the entire ChromaDB directory to reset
+            if os.path.exists(CHROMA_DIR):
+                shutil.rmtree(CHROMA_DIR)
+                os.makedirs(CHROMA_DIR, exist_ok=True)
+            # Retry after reset
+            return client.get_or_create_collection(name=name, embedding_function=embedding_function)
+        raise
 
 
 def clear_collection(name="documents"):

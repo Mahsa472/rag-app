@@ -1,0 +1,30 @@
+services:
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag2-app
+    ports:
+      - "8000:8000"
+    environment:
+      # OpenAI key should NOT be in code, we pass it at runtime!
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      # Optional overrides (default values in Dockerfile)
+      # These match the Dockerfile defaults but can be overridden
+      DATA_DIR: "/app/data/pdfs"
+      CHROMA_DIR: "/app/data/chroma_db"
+      EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
+      TOP_K: 5
+      CHUNK_SIZE: 800
+      CHUNK_OVERLAP: 200
+      HF_HOME: "/app/cache"
+
+    volumes:
+      # Mount local data folder into container (persists ChromaDB and PDFs)
+      - ./data:/app/data
+      # Mount cache directory to persist HuggingFace model cache (reduces startup time)
+      - ./cache:/app/cache
+
+    restart: unless-stopped
+

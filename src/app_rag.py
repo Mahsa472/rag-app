@@ -90,6 +90,25 @@ def home():
 def health():
     return jsonify({"status": "RAG API running"})
 
+@app.route("/check-index", methods=["GET"])
+def check_index():
+    """Check if ChromaDB has documents indexed"""
+    from embeddings_store import get_collection
+    try:
+        collection = get_collection(name="documents")
+        count = collection.count()
+        return jsonify({
+            "status": "success",
+            "document_count": count,
+            "indexed": count > 0
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "error": str(e),
+            "indexed": False
+        }), 500
+
 @app.route("/build-index", methods=["POST"])
 def build_index():
 

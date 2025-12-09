@@ -1,0 +1,57 @@
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+.conda/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Docker files (keep Dockerfile for reference, but ignore in builds)
+.dockerignore
+
+# Documentation
+*.md
+README*
+
+# Test files
+tests/
+*_test.py
+test_*.py
+
+# Logs
+*.log
+
+# Data directories (should be mounted as volumes, not copied into image)
+data/
+*.pdf
+*.sqlite3
+*.bin
+
+# Cache directories
+cache/
+.cache/
+*.cache
+
