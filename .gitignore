@@ -46,4 +46,4 @@ data/chunks.json
 # Note: data/pdfs/ is already ignored (good if using DVC to track it)
 
 # DVC metrics (optional - you can track these or ignore them)
-metrics/  # Uncomment if you don't want to track metrics
+metrics/
