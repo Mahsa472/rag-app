@@ -1,0 +1,28 @@
+stages:
+  ingest:
+    cmd: python src/ingestion.py
+    deps:
+      - src/ingestion.py
+      - data/pdfs/
+      - src/config.py
+    outs:
+      - data/chunks.json
+    params:
+      - src/config.py:CHUNK_SIZE,CHUNK_OVERLAP
+    metrics:
+      - metrics/ingest_metrics.json
+
+
+  embed_index:
+    cmd: python src/embeddings_store.py
+    deps:
+      - data/chunks.json
+      - src/embeddings_store.py
+      - src/config.py
+    outs:
+      - data/chroma_db/
+    params:
+      - src/config.py:EMBEDDING_MODEL
+    metrics:
+      - metrics/embed_metrics.json
+

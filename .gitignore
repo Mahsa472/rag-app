@@ -34,3 +34,15 @@ cache/
 *.cache
 
 
+# DVC cache and internal files
+.dvc/cache/
+.dvc/tmp/
+.dvc/config.local
+
+# DVC outputs (if tracked by DVC, ignore the actual files)
+data/chunks.json
+# Note: data/chroma_db/ is already ignored (good!)
+# Note: data/pdfs/ is already ignored (good if using DVC to track it)
+
+# DVC metrics (optional - you can track these or ignore them)
+metrics/  # Uncomment if you don't want to track metrics
