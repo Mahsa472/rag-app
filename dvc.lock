@@ -1,0 +1,52 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python src/ingestion.py
+    deps:
+    - path: data/pdfs/
+      hash: md5
+      md5: a500802de49d3544ad18dda420dc0cd3.dir
+      size: 1015954
+      nfiles: 2
+    - path: src/config.py
+      hash: md5
+      md5: 9d6a20adc31f57ae53332de10deaeab7
+      size: 398
+    - path: src/ingestion.py
+      hash: md5
+      md5: 81811261b426834dc5861a002122c822
+      size: 1928
+    outs:
+    - path: data/chunks.json
+      hash: md5
+      md5: 08b4b6e7aa6614c43a3c2aa21fb20441
+      size: 74119
+    - path: metrics/ingest_metrics.json
+      hash: md5
+      md5: 8211e0eb4b7f7c3de8e9b40d21208fc4
+      size: 119
+  embed_index:
+    cmd: python src/embeddings_store.py
+    deps:
+    - path: data/chunks.json
+      hash: md5
+      md5: 08b4b6e7aa6614c43a3c2aa21fb20441
+      size: 74119
+    - path: src/config.py
+      hash: md5
+      md5: 9d6a20adc31f57ae53332de10deaeab7
+      size: 398
+    - path: src/embeddings_store.py
+      hash: md5
+      md5: f89253ca81c3e5d3166c4e5a4eb310b0
+      size: 2795
+    outs:
+    - path: data/chroma_db/
+      hash: md5
+      md5: c7c55495e2da98d736b3979ebaa0d488.dir
+      size: 1274020
+      nfiles: 5
+    - path: metrics/embed_metrics.json
+      hash: md5
+      md5: bbe5cc661ebeb796f57d7c0c14434323
+      size: 52

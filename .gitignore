@@ -27,6 +27,7 @@ Thumbs.db
 # App-specific data directories
 data/chroma_db/
 data/pdfs/
+data/
 
 # Cache directories (HuggingFace models, etc.)
 cache/

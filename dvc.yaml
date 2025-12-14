@@ -7,8 +7,6 @@ stages:
       - src/config.py
     outs:
       - data/chunks.json
-    params:
-      - src/config.py:CHUNK_SIZE,CHUNK_OVERLAP
     metrics:
       - metrics/ingest_metrics.json
 
@@ -21,8 +19,6 @@ stages:
       - src/config.py
     outs:
       - data/chroma_db/
-    params:
-      - src/config.py:EMBEDDING_MODEL
     metrics:
       - metrics/embed_metrics.json
 
