@@ -1,3 +1,5 @@
+import os
+import json
 import chromadb
 from sentence_transformers import SentenceTransformer
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
@@ -64,10 +66,27 @@ def index_documents(docs, batch_size=16, reset=False):
             embeddings=emb,
         )
 
-if __name__ == "__main__":
-    from ingestion import iter_documents
-    docs=[]
-    for doc in iter_documents():
-        docs.append(doc)
+
+def main():
+    os.makedirs("metrics", exist_ok=True)
+    with open("data/chunks.json", "r") as f:
+        docs = json.load(f)
+
     index_documents(docs, reset=True)
-    print("Indexed documents")
+
+    metrics= {
+        "indexed_chunks": len(docs),
+        "status": "success",
+    }
+
+    with open("metrics/embed_metrics.json", "w") as f:
+        json.dump(metrics, f, indent=2)
+
+    print(f"Indexed {len(docs)} chunks in ChromaDB")
+    return 0
+
+
+
+
+if __name__ == "__main__":
+    main()

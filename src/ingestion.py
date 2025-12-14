@@ -1,4 +1,5 @@
 import os
+import json
 from config import DATA_DIR, CHUNK_SIZE, CHUNK_OVERLAP
 from PyPDF2 import PdfReader
 
@@ -40,9 +41,35 @@ def iter_documents():
                 yield chunk
 
 
+def main():
+    os.makedirs("metrics", exist_ok=True)
+    os.makedirs("data", exist_ok=True)
+
+    chunks = []
+    sources = set()
+
+    for doc in iter_documents():
+        chunks.append(doc)
+        sources.add(doc["metadata"]["source"])
+
+    if not chunks:
+        print("Error: No documents found")
+        exit(1)
+
+    with open("data/chunks.json", "w") as f:
+        json.dump(chunks, f, indent=2)
+
+    metrics= {
+        "total_chunks": len(chunks),
+        "total_sources": len(sources),
+        "sources": list(sources),
+    }
+
+    with open("metrics/ingest_metrics.json", "w") as f:
+        json.dump(metrics, f, indent=2)
+
+    print(f"Extracted {len(chunks)} chunks from {len(sources)} sources")
+    return 0
 
 if __name__ == "__main__":
-    for i, doc in enumerate(iter_documents()):
-        print(doc["id"], len(doc["text"]))
-        if i > 10:
-            break
+    main()
