@@ -1,0 +1,107 @@
+name: CI - RAG Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      # Dummy key – app must not crash just because key exists
+      OPENAI_API_KEY: "ci-dummy-key"
+
+    steps:
+      # ------------------------------------------------------------
+      # 1. Checkout repository
+      # ------------------------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------
+      # 2. Set up Python (for DVC & scripts)
+      # ------------------------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ------------------------------------------------------------
+      # 3. Install system dependencies
+      # ------------------------------------------------------------
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            gcc \
+            g++
+
+      # ------------------------------------------------------------
+      # 4. Install Python dependencies
+      # ------------------------------------------------------------
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
+          pip install dvc
+
+      # ------------------------------------------------------------
+      # 5. Validate Python imports
+      # ------------------------------------------------------------
+      - name: Validate Python imports
+        run: |
+          python - <<EOF
+          import chromadb
+          import sentence_transformers
+          import torch
+          import numpy
+          print("Python imports OK")
+          EOF
+
+      # ------------------------------------------------------------
+      # 6. Validate DVC pipeline
+      # ------------------------------------------------------------
+      - name: Validate DVC pipeline
+        run: |
+          dvc dag
+          dvc status
+
+      # ------------------------------------------------------------
+      # 7. Run DVC pipeline
+      # ------------------------------------------------------------
+      - name: Run DVC pipeline
+        continue-on-error: true
+        run: |
+          dvc repro
+
+      # ------------------------------------------------------------
+      # 8. Build Docker images via docker-compose
+      # ------------------------------------------------------------
+      - name: Build Docker Compose stack
+        run: |
+          docker compose build
+
+      # ------------------------------------------------------------
+      # 9. Smoke-test application startup
+      # ------------------------------------------------------------
+      - name: Smoke test app startup
+        run: |
+          docker compose up -d
+          sleep 10
+          docker compose ps
+          docker logs rag2-app
+          docker compose down
+
+      # ------------------------------------------------------------
+      # 10. Upload DVC metrics
+      # ------------------------------------------------------------
+      - name: Upload metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics
+          path: metrics/
