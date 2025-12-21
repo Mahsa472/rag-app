@@ -5,9 +5,9 @@ stages:
     deps:
     - path: data/pdfs/
       hash: md5
-      md5: e830a82c28365fa94ae398d202e72907.dir
-      size: 1580349
-      nfiles: 3
+      md5: 47abf22ce5dc80adaf2043a6c23a5465.dir
+      size: 1319951
+      nfiles: 2
     - path: src/config.py
       hash: md5
       md5: 9d6a20adc31f57ae53332de10deaeab7
@@ -19,19 +19,19 @@ stages:
     outs:
     - path: data/chunks.json
       hash: md5
-      md5: 574376cf7b6fe7aa1c123cf57d3cb27b
-      size: 206362
+      md5: 4318fa522e19c303b7e8f332bd39617b
+      size: 200422
     - path: metrics/ingest_metrics.json
       hash: md5
-      md5: 9b0bd41a28db8d4a1cb543fd5ee93d2b
-      size: 188
+      md5: 02a86e5cc4376be6b933ad3414cd2cd3
+      size: 161
   embed_index:
     cmd: python src/embeddings_store.py
     deps:
     - path: data/chunks.json
       hash: md5
-      md5: 574376cf7b6fe7aa1c123cf57d3cb27b
-      size: 206362
+      md5: 4318fa522e19c303b7e8f332bd39617b
+      size: 200422
     - path: src/config.py
       hash: md5
       md5: 9d6a20adc31f57ae53332de10deaeab7
@@ -43,10 +43,10 @@ stages:
     outs:
     - path: data/chroma_db/
       hash: md5
-      md5: 342f8d731946209d1d9c6d718aaf63c8.dir
-      size: 2597028
+      md5: 2f711a7c9a9773c8c402542b3ea5f73e.dir
+      size: 2494628
       nfiles: 5
     - path: metrics/embed_metrics.json
       hash: md5
-      md5: b009563bf86c57be9541a9d876305a5a
+      md5: eae7f1458bd557d50aadd58643985fe0
       size: 53
