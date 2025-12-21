@@ -26,8 +26,14 @@ Thumbs.db
 
 # App-specific data directories
 data/chroma_db/
-data/pdfs/
+data/pdfs/*.pdf
+data/pdfs/*.PDF
 data/
+# But allow DVC tracking files (must come after data/ pattern)
+!data/*.dvc
+!data/**/*.dvc
+# Allow .gitkeep files if needed
+!data/**/.gitkeep
 
 # Cache directories (HuggingFace models, etc.)
 cache/
