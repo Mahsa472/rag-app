@@ -28,7 +28,7 @@ Thumbs.db
 data/chroma_db/
 data/pdfs/*.pdf
 data/pdfs/*.PDF
-data/
+data/*
 # But allow DVC tracking files (must come after data/ pattern)
 !data/*.dvc
 !data/**/*.dvc
