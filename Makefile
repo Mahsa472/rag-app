@@ -16,6 +16,8 @@ install:
 	$(PIP) install -r requirements.txt
 	$(PIP) install "dvc[s3]"
 
+# If there are permission issues, run:
+# sudo chown -R ubuntu:ubuntu .dvc data
 # Reproduce DVCt # make repro
 repro:
 	$(DVC) repro
