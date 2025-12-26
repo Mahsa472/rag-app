@@ -25,6 +25,8 @@ services:
       - ./data:/app/data
       # Mount cache directory to persist HuggingFace model cache (reduces startup time)
       - ./cache:/app/cache
-
+      # Mount chroma_db as read-only to prevent writes
+      - ./data/chroma_db:/app/data/chroma_db:ro
+  # Restart the container unless it is stopped # restart: unless-stopped
     restart: unless-stopped
 
