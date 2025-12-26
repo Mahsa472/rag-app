@@ -42,7 +42,8 @@ def clear_collection(name="documents"):
     client = chromadb.PersistentClient(path=CHROMA_DIR)
     try:
         client.delete_collection(name)
-    except chromadb.errors.NotFoundError:
+    except ValueError:
+        # Collection doesn't exist, which is fine
         return
 
 
