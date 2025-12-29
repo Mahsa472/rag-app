@@ -7,9 +7,9 @@ on:
 
 permissions:
   contents: read
-  packages: read
+  packages: write
 
-  
+
 env:
   IMAGE_NAME: ghcr.io/mahsa472/rag-runtime
   IMAGE_TAG: latest
