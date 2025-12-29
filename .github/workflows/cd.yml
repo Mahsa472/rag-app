@@ -1,0 +1,57 @@
+name: CD - Deploy RAG Runtime
+
+on:
+  push:
+    branches:
+      - main
+
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}/rag-runtime
+  IMAGE_TAG: latest
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry-type: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+    - name: Lightweight startup check
+      run: |
+        docker run --rm $IMAGE_NAME:$IMAGE_TAG python3 -c "import app_rag"
+
+    - name: Push Docker image
+      run: |
+        docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2__SSH_KEY }}
+          script: |
+            cd ~/rag-app
+            ./deploy.sh

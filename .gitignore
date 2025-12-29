@@ -53,3 +53,9 @@ data/chunks.json
 
 # DVC metrics (optional - you can track these or ignore them)
 metrics/
+
+
+# SSH key
+*.pem
+ec2_deploy_key
+ec2_deploy_key.pub
