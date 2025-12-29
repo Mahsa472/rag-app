@@ -63,4 +63,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/rag-app
+            chmod +x ./deploy.sh
             ./deploy.sh
