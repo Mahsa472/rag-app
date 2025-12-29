@@ -5,7 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: read
 
+  
 env:
   IMAGE_NAME: ghcr.io/mahsa472/rag-runtime
   IMAGE_TAG: latest
