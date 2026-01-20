@@ -1,0 +1,45 @@
+{
+    "dashboard": {
+      "title": "RAG Application Metrics",
+      "panels": [
+        {
+          "title": "Questions Total",
+          "type": "stat",
+          "targets": [
+            {
+              "expr": "rag_questions_total",
+              "legendFormat": "Total Questions"
+            }
+          ]
+        },
+        {
+          "title": "Request Latency",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rag_retrieval_latency_seconds",
+              "legendFormat": "Retrieval Latency"
+            },
+            {
+              "expr": "rag_llm_latency_seconds",
+              "legendFormat": "LLM Latency"
+            }
+          ]
+        },
+        {
+          "title": "Tokens Usage",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "llm_tokens_input_total",
+              "legendFormat": "Input Tokens"
+            },
+            {
+              "expr": "llm_tokens_output_total",
+              "legendFormat": "Output Tokens"
+            }
+          ]
+        }
+      ]
+    }
+  }

@@ -1,5 +1,6 @@
 from openai import OpenAI
 from config import OPENAI_API_KEY
+from telemetry import tokens_in, tokens_out
 
 client = None
 if OPENAI_API_KEY:
@@ -15,6 +16,12 @@ def call_llm(prompt: str):
             messages=[{"role": "user", "content": prompt}],
             max_tokens=1000
         )
+
+        usage = resp.usage
+        if usage:
+            tokens_in.add(usage.prompt_tokens)
+            tokens_out.add(usage.completion_tokens)
+            
         return resp.choices[0].message.content
     except Exception as e:
         return f"[Error calling OpenAI API: {str(e)}]"

@@ -3,10 +3,16 @@ from flask import Flask, request, jsonify
 from ingestion import iter_documents
 from embeddings_store import index_documents
 from rag_pipeline import answer_question
+from telemetry import initialize_telemetry, questions_total
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
 
 app = Flask(__name__)
 
+#Initialize telemetry
+initialize_telemetry(app)
+
+#HTML page for the RAG demo
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -186,6 +192,13 @@ def build_index():
             "indexed": 0
         }), 500
 
+
+@app.route("/metrics", methods=["GET"])
+def metrics():
+    """Prometheus metrics endpoint"""
+    return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
+
+
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json(silent=True) or {}
@@ -194,7 +207,15 @@ def ask():
 
     answers = answer_question(data["question"])
 
+    #Record question count
+    questions_total.add(1)
+
     return jsonify({"answers": answers})
+
+
+
+
+
 
 
 def ensure_index_exists():

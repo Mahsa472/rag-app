@@ -63,5 +63,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/rag-app
+            export GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
             chmod +x ./deploy.sh
             ./deploy.sh

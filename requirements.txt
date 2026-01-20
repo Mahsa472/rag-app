@@ -11,4 +11,14 @@ huggingface-hub==0.16.4
 transformers==4.34.0
 
 # PyTorch CPU version - install with: pip install --extra-index-url https://download.pytorch.org/whl/cpu torch==2.1.2+cpu
-torch==2.1.2+cpu
+torch==2.1.2
+
+# Pin OpenTelemetry packages to compatible versions
+opentelemetry-api==1.38.0
+opentelemetry-sdk==1.38.0
+# Use compatible exporter versions - don't pin if version conflicts
+opentelemetry-exporter-prometheus
+opentelemetry-instrumentation-flask
+opentelemetry-instrumentation-requests
+
+prometheus-client

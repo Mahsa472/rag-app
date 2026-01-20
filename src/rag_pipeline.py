@@ -1,5 +1,7 @@
 from retrieval import retrieve_relevant_chunks
 from llm_openai import call_llm
+from telemetry import retrieval_latency, retrieval_chunks, llm_latency
+import time
 
 def build_prompt(question: str, contexts):
     ctx="\n\n---\n\n".join(contexts) if contexts else "No relevant context provided"
@@ -12,12 +14,22 @@ def build_prompt(question: str, contexts):
 
 
 def answer_question(question:str, top_answers:int = 3):
+    # Track retrieval latency and chunk count
+    retrieval_start = time.time()
+
     chunks = retrieve_relevant_chunks(question, top_k=top_answers)
+    retrieval_latency.record(time.time() - retrieval_start)
+    retrieval_chunks.record(len(chunks))
+
     answers = []
 
     for chunk in chunks[:top_answers]:
         prompt = build_prompt(question, [chunk["text"]])
+
+        llm_start = time.time()
         answer_text = call_llm(prompt)
+        llm_latency.record(time.time() - llm_start)
+        
         meta = chunk.get("metadata", {})
         answers.append(
             {

@@ -38,13 +38,13 @@ stages:
       size: 398
     - path: src/embeddings_store.py
       hash: md5
-      md5: f89253ca81c3e5d3166c4e5a4eb310b0
-      size: 2795
+      md5: dfbd54f56728e4349eb171b90748b9f5
+      size: 2827
     outs:
     - path: data/chroma_db/
       hash: md5
-      md5: 2f711a7c9a9773c8c402542b3ea5f73e.dir
-      size: 2494628
+      md5: be999c663b6eeeaa36be182671189d60.dir
+      size: 3764964
       nfiles: 5
     - path: metrics/embed_metrics.json
       hash: md5
