@@ -62,7 +62,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/rag-app
+            cd ~/rag-app || cd ~/rag2
+            # Set environment variables
             export GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
+            export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            # deploy.sh will handle git pull with conflict resolution
             chmod +x ./deploy.sh
             ./deploy.sh

@@ -1,45 +1,103 @@
 {
-    "dashboard": {
-      "title": "RAG Application Metrics",
-      "panels": [
-        {
-          "title": "Questions Total",
-          "type": "stat",
-          "targets": [
-            {
-              "expr": "rag_questions_total",
-              "legendFormat": "Total Questions"
-            }
-          ]
-        },
-        {
-          "title": "Request Latency",
-          "type": "graph",
-          "targets": [
-            {
-              "expr": "rag_retrieval_latency_seconds",
-              "legendFormat": "Retrieval Latency"
-            },
-            {
-              "expr": "rag_llm_latency_seconds",
-              "legendFormat": "LLM Latency"
-            }
-          ]
-        },
-        {
-          "title": "Tokens Usage",
-          "type": "graph",
-          "targets": [
-            {
-              "expr": "llm_tokens_input_total",
-              "legendFormat": "Input Tokens"
-            },
-            {
-              "expr": "llm_tokens_output_total",
-              "legendFormat": "Output Tokens"
-            }
-          ]
+  "dashboard": {
+    "id": null,
+    "uid": "rag-metrics",
+    "title": "RAG Application Metrics",
+    "tags": ["rag", "metrics"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "10s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Questions Total",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "rag_questions_total",
+            "legendFormat": "Total Questions",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "graphMode": "none",
+          "colorMode": "value",
+          "justifyMode": "auto"
         }
-      ]
-    }
-  }
+      },
+      {
+        "id": 2,
+        "title": "Retrieval Latency",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 9, "x": 6, "y": 0},
+        "targets": [
+          {
+            "expr": "rag_retrieval_latency_seconds",
+            "legendFormat": "Retrieval Latency",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "LLM Latency",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 9, "x": 15, "y": 0},
+        "targets": [
+          {
+            "expr": "rag_llm_latency_seconds",
+            "legendFormat": "LLM Latency",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Input Tokens",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "llm_tokens_input_total",
+            "legendFormat": "Input Tokens",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Output Tokens",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "llm_tokens_output_total",
+            "legendFormat": "Output Tokens",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Retrieval Chunks",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "rag_retrieval_chunks",
+            "legendFormat": "Chunks Retrieved",
+            "refId": "A"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {}
+  },
+  "overwrite": true
+}
