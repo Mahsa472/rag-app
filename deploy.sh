@@ -7,15 +7,30 @@ CONTAINER_NAME="rag-app"
 echo "🚀 Starting deployment..."
 
 # Pull latest code if in git repo
-# Handle uncommitted changes by stashing them first
+# Handle uncommitted changes and merge conflicts
 if [ -d .git ]; then
-    # Check if there are uncommitted changes
-    if ! git diff-index --quiet HEAD --; then
-        git stash save "Auto-stash before deployment $(date +%Y%m%d-%H%M%S)"
+    echo "📥 Updating code from repository..."
+    
+    # Abort any in-progress merge to clear merge conflicts
+    if [ -f .git/MERGE_HEAD ]; then
+        echo "⚠️  Merge conflict detected, aborting merge..."
+        git merge --abort 2>/dev/null || true
     fi
-    # Pull latest code
+    
+    # Reset any merge/rebase state
+    git reset --hard HEAD 2>/dev/null || true
+    
+    # Clean up any uncommitted changes
+    git clean -fd || true
+    git reset --hard HEAD || true
+    
+    # Fetch latest from origin
     git fetch origin main || echo "Git fetch failed"
-    git reset --hard origin/main || git pull origin main || echo "Git pull failed"
+    
+    # Reset to match origin/main exactly (clean state)
+    git reset --hard origin/main || echo "Git reset failed"
+    
+    echo "✅ Code updated successfully"
 else
     echo "⚠️  Not a git repo, skipping code update"
 fi
@@ -34,7 +49,11 @@ docker rm $CONTAINER_NAME || true
 export OPENAI_API_KEY=${OPENAI_API_KEY}
 export GRAFANA_PASSWORD=${GRAFANA_PASSWORD:-admin}
 
-
+# Create .env file for docker-compose
+echo "GRAFANA_PASSWORD=${GRAFANA_PASSWORD}" > .env
+if [ ! -z "$OPENAI_API_KEY" ]; then
+    echo "OPENAI_API_KEY=${OPENAI_API_KEY}" >> .env
+fi
 
 # Deploy all services
 docker-compose down
