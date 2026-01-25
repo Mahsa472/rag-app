@@ -14,11 +14,19 @@
         "title": "Questions Total",
         "type": "stat",
         "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "rag_questions_total",
             "legendFormat": "Total Questions",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ],
         "options": {
@@ -32,11 +40,19 @@
         "title": "Retrieval Latency",
         "type": "timeseries",
         "gridPos": {"h": 8, "w": 9, "x": 6, "y": 0},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "rag_retrieval_latency_seconds",
             "legendFormat": "Retrieval Latency",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ]
       },
@@ -45,11 +61,19 @@
         "title": "LLM Latency",
         "type": "timeseries",
         "gridPos": {"h": 8, "w": 9, "x": 15, "y": 0},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "rag_llm_latency_seconds",
             "legendFormat": "LLM Latency",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ]
       },
@@ -58,11 +82,19 @@
         "title": "Input Tokens",
         "type": "timeseries",
         "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "llm_tokens_input_total",
             "legendFormat": "Input Tokens",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ]
       },
@@ -71,11 +103,19 @@
         "title": "Output Tokens",
         "type": "timeseries",
         "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "llm_tokens_output_total",
             "legendFormat": "Output Tokens",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ]
       },
@@ -84,11 +124,19 @@
         "title": "Retrieval Chunks",
         "type": "timeseries",
         "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "targets": [
           {
             "expr": "rag_retrieval_chunks",
             "legendFormat": "Chunks Retrieved",
-            "refId": "A"
+            "refId": "A",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            }
           }
         ]
       }
@@ -97,7 +145,13 @@
       "from": "now-1h",
       "to": "now"
     },
-    "timepicker": {}
+    "timepicker": {},
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "weekStart": ""
   },
   "overwrite": true
 }
